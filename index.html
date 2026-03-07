@@ -656,6 +656,20 @@
         .hidden {
             display: none !important;
         }
+        .delete-stat {
+            margin-left: auto;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 0 6px;
+            opacity: 0.8;
+        }
+        .delete-stat:hover {
+            opacity: 1;
+            color: #ff0000;
+            transform: scale(1.3);
+        }
     </style>
 </head>
 <body>
@@ -663,6 +677,8 @@
     <div class="clown-rain" id="clownRain"></div>
     <div class="giant-clown-overlay" id="giantClown"><img src="icon-4.png" alt="Clown"></div>
     <button class="question-btn" id="questionBtn"><img src="icon-4.png" alt="Clown"></button>
+    <button class="question-btn" id="testMenuBtn" style="left: 82px; font-size: 26px; line-height: 52px;">📊</button>
+    <button class="question-btn" id="probBtn" style="left: 146px; font-size: 26px; line-height: 52px;">⚙️</button>
     <div id="modalNick" class="modal-overlay">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> КОГО СКАМИМ?</h2>
@@ -689,6 +705,36 @@
                 <button class="btn-close" id="closeStatsBtn">ЗАКРЫТЬ</button>
                 <button class="btn-reset" id="resetStatsBtn">СБРОСИТЬ СТАТИСТИКУ</button>
             </div>
+        </div>
+    </div>
+    <div id="testModal" class="modal-overlay hidden">
+        <div class="modal">
+            <h2><img src="icon-4.png" alt="Clown"> ТЕСТОВЫЕ ПРОКРУТЫ</h2>
+            <div style="margin-bottom:1rem; text-align:center; color:#cc99ff; font-size:0.95rem;">
+                Введите количество прокрутов:
+                <input type="number" id="testSpinsInput" value="100000" style="width:100%; padding:0.8rem; background:#2a1a33; border:2px solid #bf4dff; border-radius:50px; color:white; font-size:1.1rem; text-align:center; margin-top:0.5rem;">
+            </div>
+            <button class="btn" id="runTestBtn" style="width:100%;">🚀 ЗАПУСТИТЬ ТЕСТ</button>
+            <div style="margin-top:1.5rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:20px; font-size:0.9rem; line-height:1.4;">
+                📌 Аннотация: В F12 во вкладке Console показывается какой код выполняется в реальном времени и все результаты. Выполняемый код повторяет основной код рулетки
+            </div>
+            <button class="btn-close" id="closeTestBtn" style="margin-top:1rem;">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+    <div id="probModal" class="modal-overlay hidden">
+        <div class="modal">
+            <h2><img src="icon-4.png" alt="Clown"> ВЕРОЯТНОСТЬ РУЛЕТКИ</h2>
+            <div style="margin-bottom:1rem; text-align:center;">
+                Текущее значение: <span id="currentProbDisplay">0.50</span><br>
+                <input type="number" id="probInput" value="0.5" step="0.01" min="0" max="1" style="width:100%; padding:0.8rem; background:#2a1a33; border:2px solid #bf4dff; border-radius:50px; color:white; font-size:1.1rem; text-align:center; margin-top:0.5rem;">
+            </div>
+            <div style="margin:1rem 0; font-size:0.95rem; color:#ffcc99; line-height:1.5;">
+                Чтобы <span style="color:#ff4d94;">ПОВЫСИТЬ</span> вероятность СКАМ — ставь БОЛЬШЕ 0.5<br>
+                Чтобы <span style="color:#66ff66;">ПОНИЗИТЬ</span> — МЕНЬШЕ 0.5<br>
+                (например 0.7 или 0.3)
+            </div>
+            <button class="btn" id="saveProbBtn" style="width:100%;">💾 СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
+            <button class="btn-close" id="closeProbBtn" style="margin-top:0.8rem;">ЗАКРЫТЬ</button>
         </div>
     </div>
     <header class="header">
@@ -755,6 +801,17 @@
             const statsListModal = document.getElementById('statsListModal');
             const giantClown = document.getElementById('giantClown');
             const clownRain = document.getElementById('clownRain');
+            const testModal = document.getElementById('testModal');
+            const testSpinsInput = document.getElementById('testSpinsInput');
+            const runTestBtn = document.getElementById('runTestBtn');
+            const closeTestBtn = document.getElementById('closeTestBtn');
+            const probModal = document.getElementById('probModal');
+            const probInput = document.getElementById('probInput');
+            const currentProbDisplay = document.getElementById('currentProbDisplay');
+            const saveProbBtn = document.getElementById('saveProbBtn');
+            const closeProbBtn = document.getElementById('closeProbBtn');
+            const testMenuBtn = document.getElementById('testMenuBtn');
+            const probBtn = document.getElementById('probBtn');
             const ITEM_HEIGHT = 120;
             const REEL_HEIGHT = 360;
             const ORIG_PAIRS = 10;
@@ -769,6 +826,7 @@
             let spinAnimationFrame = null;
             let stats = [];
             let currentY = 0;
+            let scamProbability = 0.5;
             try {
                 const saved = localStorage.getItem('clownStats');
                 if (saved) stats = JSON.parse(saved);
@@ -902,7 +960,7 @@
                 if (stats.length === 0) {
                     statsListModal.innerHTML = '<li class="stats-item" style="text-align:center; opacity:0.6;">Ты еще не гемблил, че залез сюда? <img src="icon-4.png" alt="Clown" style="width:24px;height:24px;vertical-align:middle;"></li>';
                 } else {
-                    statsListModal.innerHTML = stats.map(s => `<li class="stats-item">${s}</li>`).join('');
+                    statsListModal.innerHTML = stats.map((s, i) => `<li class="stats-item">${s}<span class="delete-stat" data-index="${i}">✕</span></li>`).join('');
                 }
             }
             function setLensEffect(active, isScam = null) {
@@ -997,6 +1055,28 @@
                     alert("Статистика сброшена");
                 }
             }
+            function runTestSpins() {
+                const count = parseInt(testSpinsInput.value) || 100000;
+                if (count < 1 || count > 1000000) {
+                    alert('Количество прокрутов от 1 до 1 000 000!');
+                    return;
+                }
+                console.log(`%c=== ЗАПУСК ТЕСТОВЫХ ПРОКРУТОВ (${count}) ===`, 'color: #bf4dff; font-weight: bold; font-size: 15px;');
+                console.log(`Текущая вероятность СКАМ: ${scamProbability}`);
+                let scamCount = 0;
+                for (let i = 1; i <= count; i++) {
+                    const isScam = Math.random() < scamProbability;
+                    if (isScam) scamCount++;
+                    if (i % 10000 === 0 || i === count) {
+                        console.log(`Прокрут #${i} | Результат: ${isScam ? 'СКАМ' : 'НЕ СКАМ'} | Прогресс: ${((i / count) * 100).toFixed(1)}%`);
+                    }
+                }
+                const percent = ((scamCount / count) * 100).toFixed(2);
+                console.log(`%c=== ТЕСТ ЗАВЕРШЕН ===`, 'color: #66ff66; font-weight: bold; font-size: 14px;');
+                console.log(`СКАМ: ${scamCount} (${percent}%)`);
+                console.log(`НЕ СКАМ: ${count - scamCount} (${(100 - parseFloat(percent)).toFixed(2)}%)`);
+                alert(`Тест завершён! Проверь Console (F12) — там весь код и результаты.`);
+            }
             submitNickBtn.addEventListener('click', () => {
                 const nick = nicknameInput.value.trim();
                 if (!nick) { alert('Введите ник!'); return; }
@@ -1023,12 +1103,12 @@
             });
             spinBtn.addEventListener('click', () => {
                 if (!currentNick) { changeNickBtn.click(); return; }
-                const random = Math.random() < 0.5;
+                const random = Math.random() < scamProbability;
                 startSpin(random, false);
             });
             warmupSpinBtn.addEventListener('click', () => {
                 if (!currentNick) { changeNickBtn.click(); return; }
-                const random = Math.random() < 0.5;
+                const random = Math.random() < scamProbability;
                 startSpin(random, true);
             });
             openStatsBtn.addEventListener('click', () => {
@@ -1042,8 +1122,51 @@
             questionBtn.addEventListener('click', () => {
                 showGiantClown();
             });
+            testMenuBtn.addEventListener('click', () => {
+                testModal.classList.remove('hidden');
+            });
+            probBtn.addEventListener('click', () => {
+                probInput.value = scamProbability.toFixed(2);
+                currentProbDisplay.textContent = scamProbability.toFixed(2);
+                probModal.classList.remove('hidden');
+            });
+            runTestBtn.addEventListener('click', runTestSpins);
+            closeTestBtn.addEventListener('click', () => {
+                testModal.classList.add('hidden');
+            });
+            saveProbBtn.addEventListener('click', () => {
+                let newP = parseFloat(probInput.value);
+                if (isNaN(newP) || newP < 0 || newP > 1) {
+                    alert('Значение от 0.00 до 1.00 !');
+                    return;
+                }
+                scamProbability = newP;
+                alert(`Вероятность СКАМ теперь: ${newP.toFixed(2)}\n(>0.5 = больше СКАМ, <0.5 = меньше)`);
+                probModal.classList.add('hidden');
+            });
+            closeProbBtn.addEventListener('click', () => {
+                probModal.classList.add('hidden');
+            });
+            probInput.addEventListener('input', () => {
+                let val = parseFloat(probInput.value);
+                if (!isNaN(val)) {
+                    currentProbDisplay.textContent = val.toFixed(2);
+                }
+            });
+            statsListModal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-stat')) {
+                    const idx = parseInt(e.target.dataset.index);
+                    if (!isNaN(idx)) {
+                        stats.splice(idx, 1);
+                        saveStats();
+                        renderStatsModal();
+                    }
+                }
+            });
             window.addEventListener('click', (e) => {
                 if (e.target === statsModal) statsModal.classList.add('hidden');
+                if (e.target === testModal) testModal.classList.add('hidden');
+                if (e.target === probModal) probModal.classList.add('hidden');
             });
             nicknameInput.focus();
             if (!currentNick) {
@@ -1055,7 +1178,3 @@
     </script>
 </body>
 </html>
-
-
-
-
