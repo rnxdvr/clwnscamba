@@ -40,21 +40,12 @@
         }
         .clown {
             position: absolute;
-            font-size: 6rem;
+            width: 80px;
+            height: 80px;
             opacity: 0.2;
             user-select: none;
-            animation: fall linear infinite, spin linear infinite;
             filter: drop-shadow(0 0 8px #bf4dff);
-            color: #e0b3ff;
-            will-change: transform, opacity;
-        }
-        @keyframes fall {
-            0% { top: -10%; }
-            100% { top: 110%; }
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            will-change: transform;
         }
         .glass-overlay {
             position: fixed;
@@ -80,8 +71,11 @@
             z-index: 999;
             opacity: 0;
             transition: opacity 1.5s ease;
-            font-size: 30vw;
-            text-shadow: 0 0 50px #ff66b2, 0 0 150px #ff00aa;
+        }
+        .giant-clown-overlay img {
+            width: 60vw;
+            max-width: 500px;
+            filter: drop-shadow(0 0 50px #ff66b2);
         }
         .giant-clown-overlay.show {
             opacity: 1;
@@ -104,6 +98,11 @@
             border-bottom: 2px solid #a64dff;
             box-shadow: 0 0 30px #bf4dff4d;
             border-radius: 0 0 30px 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .header:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 15px #bf4dff, 0 0 20px #ff80ff;
         }
         .header-left {
             flex: 1;
@@ -140,8 +139,6 @@
             border-radius: 50%;
             width: 52px;
             height: 52px;
-            font-size: 1.8rem;
-            color: #d9b3ff;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -152,6 +149,10 @@
             top: 18px;
             left: 18px;
             z-index: 15;
+        }
+        .question-btn img {
+            width: 36px;
+            height: 36px;
         }
         .question-btn:hover {
             background: #7f2fbf;
@@ -227,6 +228,13 @@
             color: #e6ccff;
             box-shadow: 0 0 25px #bf4dff;
             font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nickname-display img {
+            width: 32px;
+            height: 32px;
         }
         .nickname-display span {
             color: #ffb3ff;
@@ -433,19 +441,21 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 1rem;
         }
         .modal {
             background: #1a1025;
             border: 3px solid #bf4dff;
-            border-radius: 60px;
+            border-radius: 50px;
             padding: 1.5rem;
-            max-width: 650px;
-            width: 90%;
-            max-height: 80vh;
+            width: auto;
+            max-width: 95vw;
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 0 80px #bf4dff;
             font-family: 'Inter', sans-serif;
+            overflow: hidden;
         }
         .modal h2 {
             color: #f0ccff;
@@ -455,6 +465,14 @@
             text-shadow: 0 0 20px #bf4dff;
             font-family: 'Poppins', sans-serif;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .modal h2 img {
+            width: 48px;
+            height: 48px;
         }
         .stats-list {
             list-style: none;
@@ -462,13 +480,15 @@
             flex-direction: column;
             gap: 0.8rem;
             overflow-y: auto;
-            padding-right: 8px;
-            max-height: 350px;
+            padding: 0.5rem 0.8rem;
+            margin: 0 -0.5rem;
+            max-height: 65vh;
             scrollbar-width: thin;
             scrollbar-color: #ff4d94 #2a1a33;
         }
         .stats-list::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         .stats-list::-webkit-scrollbar-track {
             background: #2a1a33;
@@ -482,12 +502,21 @@
         .stats-item {
             background: #261a33;
             border-left: 6px solid #ff4d94;
-            padding: 0.8rem 1.2rem;
+            padding: 0.9rem 1.2rem;
             border-radius: 30px;
-            font-size: 0.9rem;
-            word-break: break-word;
+            font-size: 0.95rem;
             color: #e6d9ff;
             box-shadow: inset 0 0 10px #00000066;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .stats-item img {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
         }
         .stats-item .nickname {
             font-weight: 800;
@@ -496,7 +525,8 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: shimmer 3s infinite;
-            display: inline-block;
+            word-break: break-word;
+            flex: 1;
         }
         @keyframes shimmer {
             0% { filter: hue-rotate(0deg); }
@@ -572,9 +602,6 @@
             gap: 1rem;
             margin-top: 1.5rem;
         }
-        .hidden {
-            display: none !important;
-        }
         .footer {
             position: relative;
             z-index: 10;
@@ -590,18 +617,56 @@
             border-radius: 25px 25px 0 0;
             font-family: 'Inter', sans-serif;
             margin-top: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .footer:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 15px #bf4dff, 0 0 20px #ff80ff;
+        }
+        @media (max-width: 480px) {
+            .modal {
+                padding: 1.2rem;
+                border-radius: 40px;
+                width: 94vw;
+                max-width: 94vw;
+            }
+            .modal h2 {
+                font-size: 1.7rem;
+                gap: 10px;
+            }
+            .modal h2 img {
+                width: 40px;
+                height: 40px;
+            }
+            .stats-list {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.6rem;
+                max-height: 60vh;
+            }
+            .stats-item {
+                padding: 0.8rem 1rem;
+                font-size: 0.88rem;
+                gap: 8px;
+            }
+            .stats-item img {
+                width: 22px;
+                height: 22px;
+            }
+        }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
     <div class="glass-overlay"></div>
     <div class="clown-rain" id="clownRain"></div>
-    <div class="giant-clown-overlay" id="giantClown">🤡</div>
-    <button class="question-btn" id="questionBtn">🤔</button>
+    <div class="giant-clown-overlay" id="giantClown"><img src="icon-4.png" alt="Clown"></div>
+    <button class="question-btn" id="questionBtn"><img src="icon-4.png" alt="Clown"></button>
     <div id="modalNick" class="modal-overlay">
         <div class="modal">
-            <h2>🤡 КОГО СКАМИМ?</h2>
-            <input type="text" id="nicknameInput" placeholder="Введите ник" maxlength="30" autocomplete="off" style="width:100%; padding:0.8rem; background:#2a1a33; border:2px solid #bf4dff; border-radius:50px; color:white; font-size:1.1rem; margin-bottom:1.5rem; text-align:center; font-family:'Inter',sans-serif;">
+            <h2><img src="icon-4.png" alt="Clown"> КОГО СКАМИМ?</h2>
+            <input type="text" id="nicknameInput" placeholder="ник скамируемого" maxlength="30" autocomplete="off" style="width:100%; padding:0.8rem; background:#2a1a33; border:2px solid #bf4dff; border-radius:50px; color:white; font-size:1.1rem; margin-bottom:1.5rem; text-align:center; font-family:'Inter',sans-serif;">
             <div style="display:flex; gap:1rem; justify-content:center;">
                 <button class="btn" id="submitNickBtn">ГОТОВО</button>
             </div>
@@ -609,7 +674,7 @@
     </div>
     <div id="modalWarmup" class="modal-overlay hidden">
         <div class="modal">
-            <h2>🤔 КРУТИМ ПРОГРЕВОЧНУЮ?</h2>
+            <h2><img src="icon-4.png" alt="Clown"> КРУТИМ ПРОГРЕВОЧНУЮ?</h2>
             <div style="display:flex; gap:1rem; justify-content:center;">
                 <button class="btn" id="warmupYesBtn">ДА</button>
                 <button class="btn" id="warmupNoBtn">НЕТ</button>
@@ -618,7 +683,7 @@
     </div>
     <div id="statsModal" class="modal-overlay hidden">
         <div class="modal">
-            <h2>📊 СТАТИСТИКА</h2>
+            <h2><img src="icon-4.png" alt="Clown"> СТАТИСТИКА</h2>
             <ul class="stats-list" id="statsListModal"></ul>
             <div class="modal-buttons">
                 <button class="btn-close" id="closeStatsBtn">ЗАКРЫТЬ</button>
@@ -644,7 +709,7 @@
     </header>
     <main id="mainApp" class="main-content hidden">
         <div class="nickname-display">
-            🤡 Скамим: <span id="currentNick">—</span>
+            <img src="icon-4.png" alt="Clown" style="width:32px;height:32px;"> Скамим: <span id="currentNick">—</span>
         </div>
         <div class="roulette-container">
             <div class="side-indicator left"></div>
@@ -694,7 +759,6 @@
             const REEL_HEIGHT = 360;
             const ORIG_PAIRS = 10;
             const ORIG_ELEMENTS = ORIG_PAIRS * 2;
-            const TOTAL_ELEMENTS = ORIG_ELEMENTS * 2;
             const ORIG_HEIGHT = ORIG_ELEMENTS * ITEM_HEIGHT;
             const SCAM = 'СКАМ';
             const NOT_SCAM = 'НЕ СКАМ';
@@ -713,25 +777,90 @@
             const sound2 = new Audio('2.mp3');
             sound1.load();
             sound2.load();
-            function createClowns(count = 60) {
+            const CLOWN_WIDTH = 80;
+            const CLOWN_HEIGHT = 80;
+            let mouseX = -1000, mouseY = -1000;
+            let clowns = [];
+            let animationFrame = null;
+            const REPEL_RADIUS = 100;
+            const REPEL_FORCE = 0.8;
+            const FRICTION = 0.98;
+            const GRAVITY = 0.009;
+            const BASE_SPEED = 0.2;
+            function createClownsJS() {
+                const count = window.innerWidth <= 480 ? 40 : 80;
                 clownRain.innerHTML = '';
+                clowns = [];
                 for (let i = 0; i < count; i++) {
-                    const clown = document.createElement('div');
-                    clown.className = 'clown';
-                    clown.textContent = '🤡';
-                    clown.style.left = Math.random() * 100 + '%';
-                    clown.style.animation = `fall ${12 + Math.random() * 25}s linear ${Math.random() * 15}s infinite, spin ${4 + Math.random() * 12}s linear infinite`;
-                    clown.style.fontSize = (3 + Math.random() * 7) + 'rem';
-                    clownRain.appendChild(clown);
+                    const img = document.createElement('img');
+                    img.src = 'icon-4.png';
+                    img.alt = 'Clown';
+                    img.className = 'clown';
+                    clownRain.appendChild(img);
+                    const startY = -CLOWN_HEIGHT + Math.random() * (window.innerHeight + CLOWN_HEIGHT * 2);
+                    const startX = Math.random() * 100;
+                    clowns.push({
+                        element: img,
+                        x: startX,
+                        y: startY,
+                        vx: (Math.random() - 0.5) * 0.2,
+                        vy: BASE_SPEED + Math.random() * 0.2,
+                        angle: Math.random() * 360,
+                        angularSpeed: (Math.random() - 0.5) * 0.2
+                    });
                 }
             }
-            createClowns(60);
-            function showGiantClown() {
-                giantClown.classList.add('show');
-                giantClown.classList.remove('fadeout');
-                setTimeout(() => giantClown.classList.add('fadeout'), 50);
-                setTimeout(() => giantClown.classList.remove('show', 'fadeout'), 1550);
+            function updateClowns() {
+                const containerHeight = window.innerHeight;
+                const containerWidth = window.innerWidth;
+                for (let c of clowns) {
+                    c.vy += GRAVITY;
+                    if (mouseX >= 0 && mouseY >= 0) {
+                        const clownX_px = (c.x / 100) * containerWidth;
+                        const clownY_px = c.y;
+                        const dx = clownX_px - mouseX;
+                        const dy = clownY_px - mouseY;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < REPEL_RADIUS) {
+                            const force = (1 - dist / REPEL_RADIUS) * REPEL_FORCE;
+                            const angle = Math.atan2(dy, dx);
+                            c.vx += Math.cos(angle) * force;
+                            c.vy += Math.sin(angle) * force;
+                        }
+                    }
+                    c.vx *= FRICTION;
+                    c.y += c.vy;
+                    c.x += c.vx / containerWidth * 100;
+                    c.angle += c.angularSpeed;
+                    if (c.y > containerHeight + CLOWN_HEIGHT * 2) {
+                        c.y = -CLOWN_HEIGHT - Math.random() * 200;
+                        c.x = Math.random() * 100;
+                        c.vx = (Math.random() - 0.5) * 0.2;
+                        c.vy = BASE_SPEED + Math.random() * 0.2;
+                        c.angle = Math.random() * 360;
+                    }
+                    if (c.x < 0) c.x = 0;
+                    if (c.x > 100) c.x = 100;
+                    c.element.style.left = c.x + '%';
+                    c.element.style.transform = `translateY(${c.y}px) rotate(${c.angle}deg)`;
+                }
+                animationFrame = requestAnimationFrame(updateClowns);
             }
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            window.addEventListener('mouseleave', () => {
+                mouseX = -1000;
+                mouseY = -1000;
+            });
+            function startClownRain() {
+                createClownsJS();
+                if (animationFrame) cancelAnimationFrame(animationFrame);
+                animationFrame = requestAnimationFrame(updateClowns);
+            }
+            window.addEventListener('load', startClownRain);
+            window.addEventListener('resize', startClownRain);
             function buildRouletteItems() {
                 let html = '';
                 for (let i = 0; i < ORIG_PAIRS; i++) {
@@ -764,15 +893,16 @@
                 } else {
                     text = `${formatDateTime(now)} | <span class="nickname">${nickname}</span> | <span class="scam-word">успешно проебал</span> 15000 роторных клоунов`;
                 }
-                stats.push(text);
+                const entry = `<img src="icon-4.png" alt="Clown" style="width:24px;height:24px;vertical-align:middle;"> ${text}`;
+                stats.push(entry);
                 saveStats();
                 renderStatsModal();
             }
             function renderStatsModal() {
                 if (stats.length === 0) {
-                    statsListModal.innerHTML = '<li class="stats-item" style="text-align:center; opacity:0.6;">Пока тут пусто... Крути pedals jeblan! 🤡</li>';
+                    statsListModal.innerHTML = '<li class="stats-item" style="text-align:center; opacity:0.6;">Ты еще не гемблил, че залез сюда? <img src="icon-4.png" alt="Clown" style="width:24px;height:24px;vertical-align:middle;"></li>';
                 } else {
-                    statsListModal.innerHTML = stats.map(s => `<li class="stats-item">🤡 ${s}</li>`).join('');
+                    statsListModal.innerHTML = stats.map(s => `<li class="stats-item">${s}</li>`).join('');
                 }
             }
             function setLensEffect(active, isScam = null) {
@@ -849,12 +979,22 @@
                 }
                 spinAnimationFrame = requestAnimationFrame(animate);
             }
+            function showGiantClown() {
+                giantClown.innerHTML = '<img src="icon-4.png" alt="Clown">';
+                giantClown.classList.add('show');
+                giantClown.classList.remove('fadeout');
+                setTimeout(() => giantClown.classList.add('fadeout'), 50);
+                setTimeout(() => {
+                    giantClown.classList.remove('show', 'fadeout');
+                    giantClown.innerHTML = '';
+                }, 1550);
+            }
             function resetStatistics() {
-                if (confirm("ТЫ УВЕРЕН? 🤡")) {
+                if (confirm("ТЫ УВЕРЕН?")) {
                     stats = [];
                     saveStats();
                     renderStatsModal();
-                    alert("Статистика сброшена 🧹");
+                    alert("Статистика сброшена");
                 }
             }
             submitNickBtn.addEventListener('click', () => {
@@ -914,7 +1054,4 @@
         })();
     </script>
 </body>
-
 </html>
-
-
