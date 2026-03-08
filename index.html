@@ -23,11 +23,44 @@
             backdrop-filter: blur(6px);
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Poppins:wght@600;800&display=swap');
-        h1, h2, h3, .logo, .btn, .stats-title {
+        h1, h2, h3, .btn, .stats-title {
             font-family: 'Poppins', 'Inter', sans-serif;
             font-weight: 800;
             letter-spacing: 0.02em;
         }
+
+        /* Splash screen */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 5, 15, 0.94);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 2.4s ease-in-out, transform 2.4s ease-in-out;
+        }
+        #splash.fading {
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+        }
+        #splash img {
+            max-width: 70vw;
+            max-height: 45vh;
+            width: auto;
+            height: auto;
+            filter: drop-shadow(0 0 30px #d199e6) drop-shadow(0 0 60px #b380cc);
+            animation: pulseLogo 3.2s infinite ease-in-out;
+        }
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1.00);   opacity: 0.94; }
+            50%      { transform: scale(1.045);  opacity: 1.00; }
+        }
+
         .clown-rain {
             position: fixed;
             top: 0;
@@ -120,18 +153,14 @@
             justify-content: flex-end;
         }
         .logo {
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            color: #d9b3ff;
-            text-shadow: 0 0 20px #bf4dff, 0 0 40px #9f4dff;
-            animation: glowPulse 3s infinite;
-            font-family: 'Poppins', sans-serif;
+            height: 54px;
+            width: auto;
+            filter: drop-shadow(0 0 2px #b380cc) drop-shadow(0 0 6px #b380cc);
+            animation: footerGlow 4s infinite ease-in-out;
         }
-        @keyframes glowPulse {
-            0% { text-shadow: 0 0 20px #bf4dff, 0 0 40px #9f4dff; }
-            50% { text-shadow: 0 0 30px #ff80ff, 0 0 60px #bf4dff; }
-            100% { text-shadow: 0 0 20px #bf4dff, 0 0 40px #9f4dff; }
+        @keyframes footerGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px #b380cc) drop-shadow(0 0 6px #b380cc); }
+            50%      { filter: drop-shadow(0 0 2px #d199e6) drop-shadow(0 0 12px #d199e6); }
         }
         .question-btn {
             background: rgba(20, 10, 30, 0.6);
@@ -652,6 +681,13 @@
                 width: 22px;
                 height: 22px;
             }
+            .logo {
+                height: 42px;
+            }
+            #splash img {
+                max-width: 80vw;
+                max-height: 35vh;
+            }
         }
         .hidden {
             display: none !important;
@@ -673,12 +709,18 @@
     </style>
 </head>
 <body>
+
+    <div id="splash">
+        <img src="acce_vibecodes.png" alt="ACCE VIBECODES">
+    </div>
+
     <div class="glass-overlay"></div>
     <div class="clown-rain" id="clownRain"></div>
     <div class="giant-clown-overlay" id="giantClown"><img src="icon-4.png" alt="Clown"></div>
     <button class="question-btn" id="questionBtn"><img src="icon-4.png" alt="Clown"></button>
     <button class="question-btn" id="testMenuBtn" style="left: 82px; font-size: 26px; line-height: 52px;">📊</button>
     <button class="question-btn" id="probBtn" style="left: 146px; font-size: 26px; line-height: 52px;">⚙️</button>
+
     <div id="modalNick" class="modal-overlay">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> КОГО СКАМИМ?</h2>
@@ -688,6 +730,7 @@
             </div>
         </div>
     </div>
+
     <div id="modalWarmup" class="modal-overlay hidden">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> НЕ ЗАБУДЬ ПРОГРЕВОЧНУЮ</h2>
@@ -697,6 +740,7 @@
             </div>
         </div>
     </div>
+
     <div id="statsModal" class="modal-overlay hidden">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> СТАТИСТИКА</h2>
@@ -707,6 +751,7 @@
             </div>
         </div>
     </div>
+
     <div id="testModal" class="modal-overlay hidden">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> ТЕСТОВЫЕ ПРОКРУТЫ</h2>
@@ -721,6 +766,7 @@
             <button class="btn-close" id="closeTestBtn" style="margin-top:1rem;">ЗАКРЫТЬ</button>
         </div>
     </div>
+
     <div id="probModal" class="modal-overlay hidden">
         <div class="modal">
             <h2><img src="icon-4.png" alt="Clown"> ВЕРОЯТНОСТЬ РУЛЕТКИ</h2>
@@ -737,6 +783,7 @@
             <button class="btn-close" id="closeProbBtn" style="margin-top:0.8rem;">ЗАКРЫТЬ</button>
         </div>
     </div>
+
     <header class="header">
         <div class="header-left">
             <a href="https://www.twitch.tv/clwnsquad" target="_blank" class="twitch-btn">
@@ -745,7 +792,7 @@
             </a>
         </div>
         <div class="header-center">
-            <div class="logo">CLWNSCAM</div>
+            <img src="clwnscam.png" alt="CLWNSCAM" class="logo">
         </div>
         <div class="header-right">
             <a href="https://dalink.to/quarkeelite" target="_blank" class="donate-btn">
@@ -753,6 +800,7 @@
             </a>
         </div>
     </header>
+
     <main id="mainApp" class="main-content hidden">
         <div class="nickname-display">
             <img src="icon-4.png" alt="Clown" style="width:32px;height:32px;"> Скамим: <span id="currentNick">—</span>
@@ -775,11 +823,14 @@
             📋 ПОКАЗАТЬ СТАТИСТИКУ
         </button>
     </main>
+
     <footer class="footer">
         ACCE VIBECODES INC. 2026 — ALL RIGHTS RESERVED
     </footer>
+
     <script>
         (function() {
+            const splash = document.getElementById('splash');
             const modalNick = document.getElementById('modalNick');
             const modalWarmup = document.getElementById('modalWarmup');
             const statsModal = document.getElementById('statsModal');
@@ -812,6 +863,7 @@
             const closeProbBtn = document.getElementById('closeProbBtn');
             const testMenuBtn = document.getElementById('testMenuBtn');
             const probBtn = document.getElementById('probBtn');
+
             const ITEM_HEIGHT = 120;
             const REEL_HEIGHT = 360;
             const ORIG_PAIRS = 10;
@@ -820,6 +872,7 @@
             const SCAM = 'СКАМ';
             const NOT_SCAM = 'НЕ СКАМ';
             const SPIN_DURATION = 5360;
+
             let currentNick = '';
             let firstSpinIsWarmup = false;
             let isSpinning = false;
@@ -827,14 +880,17 @@
             let stats = [];
             let currentY = 0;
             let scamProbability = 0.5;
+
             try {
                 const saved = localStorage.getItem('clownStats');
                 if (saved) stats = JSON.parse(saved);
             } catch (e) {}
+
             const sound1 = new Audio('1.mp3');
             const sound2 = new Audio('2.mp3');
             sound1.load();
             sound2.load();
+
             const CLOWN_WIDTH = 80;
             const CLOWN_HEIGHT = 80;
             let mouseX = -1000, mouseY = -1000;
@@ -845,6 +901,7 @@
             const FRICTION = 0.98;
             const GRAVITY = 0.009;
             const BASE_SPEED = 0.2;
+
             function createClownsJS() {
                 const count = window.innerWidth <= 480 ? 40 : 90;
                 clownRain.innerHTML = '';
@@ -868,6 +925,7 @@
                     });
                 }
             }
+
             function updateClowns() {
                 const containerHeight = window.innerHeight;
                 const containerWidth = window.innerWidth;
@@ -904,21 +962,26 @@
                 }
                 animationFrame = requestAnimationFrame(updateClowns);
             }
+
             window.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
             });
+
             window.addEventListener('mouseleave', () => {
                 mouseX = -1000;
                 mouseY = -1000;
             });
+
             function startClownRain() {
                 createClownsJS();
                 if (animationFrame) cancelAnimationFrame(animationFrame);
                 animationFrame = requestAnimationFrame(updateClowns);
             }
+
             window.addEventListener('load', startClownRain);
             window.addEventListener('resize', startClownRain);
+
             function buildRouletteItems() {
                 let html = '';
                 for (let i = 0; i < ORIG_PAIRS; i++) {
@@ -930,15 +993,19 @@
                 rouletteItems.style.transform = `translateY(-${currentY}px)`;
             }
             buildRouletteItems();
+
             function saveStats() {
                 localStorage.setItem('clownStats', JSON.stringify(stats));
             }
+
             function formatDate(date) {
                 return `${date.getDate().toString().padStart(2,'0')}.${(date.getMonth()+1).toString().padStart(2,'0')}.${date.getFullYear()}`;
             }
+
             function formatDateTime(date) {
                 return `${formatDate(date)} ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}:${date.getSeconds().toString().padStart(2,'0')}`;
             }
+
             function addStatEntry(result, nickname) {
                 const now = new Date();
                 let text = '';
@@ -956,6 +1023,7 @@
                 saveStats();
                 renderStatsModal();
             }
+
             function renderStatsModal() {
                 if (stats.length === 0) {
                     statsListModal.innerHTML = '<li class="stats-item" style="text-align:center; opacity:0.6;">Ты еще не гемблил, че залез сюда? <img src="icon-4.png" alt="Clown" style="width:24px;height:24px;vertical-align:middle;"></li>';
@@ -963,6 +1031,7 @@
                     statsListModal.innerHTML = stats.map((s, i) => `<li class="stats-item">${s}<span class="delete-stat" data-index="${i}">✕</span></li>`).join('');
                 }
             }
+
             function setLensEffect(active, isScam = null) {
                 rouletteWrapper.classList.remove('lens-effect', 'scam-lens', 'not-scam-lens');
                 if (active) {
@@ -974,6 +1043,7 @@
                     }
                 }
             }
+
             function getRandomIndex(targetIsScam) {
                 const indices = [];
                 for (let i = 0; i < ORIG_ELEMENTS; i++) {
@@ -983,6 +1053,7 @@
                 }
                 return indices[Math.floor(Math.random() * indices.length)];
             }
+
             function startSpin(targetIsScam, isWarmupSpin = false) {
                 if (isSpinning) return;
                 isSpinning = true;
@@ -1037,6 +1108,7 @@
                 }
                 spinAnimationFrame = requestAnimationFrame(animate);
             }
+
             function showGiantClown() {
                 giantClown.innerHTML = '<img src="icon-4.png" alt="Clown">';
                 giantClown.classList.add('show');
@@ -1047,6 +1119,7 @@
                     giantClown.innerHTML = '';
                 }, 1550);
             }
+
             function resetStatistics() {
                 if (confirm("ТЫ УВЕРЕН?")) {
                     stats = [];
@@ -1055,6 +1128,7 @@
                     alert("Статистика сброшена");
                 }
             }
+
             function runTestSpins() {
                 const count = parseInt(testSpinsInput.value) || 100000;
                 if (count < 1 || count > 1000000) {
@@ -1077,6 +1151,7 @@
                 console.log(`НЕ СКАМ: ${count - scamCount} (${(100 - parseFloat(percent)).toFixed(2)}%)`);
                 alert(`Тест завершён! Проверь Console (F12) — там весь код и результаты.`);
             }
+
             submitNickBtn.addEventListener('click', () => {
                 const nick = nicknameInput.value.trim();
                 if (!nick) { alert('Введите ник!'); return; }
@@ -1085,55 +1160,69 @@
                 modalNick.classList.add('hidden');
                 modalWarmup.classList.remove('hidden');
             });
+
             warmupYesBtn.addEventListener('click', () => {
                 firstSpinIsWarmup = true;
                 modalWarmup.classList.add('hidden');
                 mainApp.classList.remove('hidden');
             });
+
             warmupNoBtn.addEventListener('click', () => {
                 firstSpinIsWarmup = false;
                 modalWarmup.classList.add('hidden');
                 mainApp.classList.remove('hidden');
             });
+
             changeNickBtn.addEventListener('click', () => {
                 modalNick.classList.remove('hidden');
                 mainApp.classList.add('hidden');
                 nicknameInput.value = currentNick;
                 modalWarmup.classList.add('hidden');
             });
+
             spinBtn.addEventListener('click', () => {
                 if (!currentNick) { changeNickBtn.click(); return; }
                 const random = Math.random() < scamProbability;
                 startSpin(random, false);
             });
+
             warmupSpinBtn.addEventListener('click', () => {
                 if (!currentNick) { changeNickBtn.click(); return; }
                 const random = Math.random() < scamProbability;
                 startSpin(random, true);
             });
+
             openStatsBtn.addEventListener('click', () => {
                 renderStatsModal();
                 statsModal.classList.remove('hidden');
             });
+
             closeStatsBtn.addEventListener('click', () => {
                 statsModal.classList.add('hidden');
             });
+
             resetStatsBtn.addEventListener('click', resetStatistics);
+
             questionBtn.addEventListener('click', () => {
                 showGiantClown();
             });
+
             testMenuBtn.addEventListener('click', () => {
                 testModal.classList.remove('hidden');
             });
+
             probBtn.addEventListener('click', () => {
                 probInput.value = scamProbability.toFixed(2);
                 currentProbDisplay.textContent = scamProbability.toFixed(2);
                 probModal.classList.remove('hidden');
             });
+
             runTestBtn.addEventListener('click', runTestSpins);
+
             closeTestBtn.addEventListener('click', () => {
                 testModal.classList.add('hidden');
             });
+
             saveProbBtn.addEventListener('click', () => {
                 let newP = parseFloat(probInput.value);
                 if (isNaN(newP) || newP < 0 || newP > 1) {
@@ -1144,15 +1233,18 @@
                 alert(`Вероятность СКАМ теперь: ${newP.toFixed(2)}\n(>0.5 = больше СКАМ, <0.5 = меньше)`);
                 probModal.classList.add('hidden');
             });
+
             closeProbBtn.addEventListener('click', () => {
                 probModal.classList.add('hidden');
             });
+
             probInput.addEventListener('input', () => {
                 let val = parseFloat(probInput.value);
                 if (!isNaN(val)) {
                     currentProbDisplay.textContent = val.toFixed(2);
                 }
             });
+
             statsListModal.addEventListener('click', (e) => {
                 if (e.target.classList.contains('delete-stat')) {
                     const idx = parseInt(e.target.dataset.index);
@@ -1163,17 +1255,24 @@
                     }
                 }
             });
+
             window.addEventListener('click', (e) => {
                 if (e.target === statsModal) statsModal.classList.add('hidden');
                 if (e.target === testModal) testModal.classList.add('hidden');
                 if (e.target === probModal) probModal.classList.add('hidden');
             });
-            nicknameInput.focus();
-            if (!currentNick) {
-                modalNick.classList.remove('hidden');
-            } else {
-                mainApp.classList.remove('hidden');
-            }
+
+            // Splash → fade out + scale down
+            setTimeout(() => {
+                splash.classList.add('fading');
+                setTimeout(() => {
+                    splash.style.display = 'none';  // 
+                    modalNick.classList.remove('hidden');
+                    nicknameInput.focus();
+                }, 2500);  // 
+            }, 1800);  // 
+
+            mainApp.classList.add('hidden');
         })();
     </script>
 </body>
