@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#12101b" name="theme-color"/>
+<meta content="CLWNSCAM — шуточная неоновая рулетка. Крути, проверяй удачу и сохраняй результаты." name="description"/>
+<title>CLWNSCAM — рулетка вайбкодинга</title>
+<link href="icon-4.png" rel="icon" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css?v=2.5" rel="stylesheet"/>
+<script defer="" src="app.js?v=2.5"></script>
+</head>
+<body>
+<div aria-hidden="true" class="ambient-light"></div>
+<div aria-hidden="true" class="clown-rain" id="clownRain"></div>
+<div aria-hidden="true" class="intro-blur" id="introBlur"></div>
+<div aria-label="Загрузка CLWNSCAM" class="splash" id="splash">
+<div class="splash-content">
+<img alt="Acce Vibecodes" height="173" src="acce_vibecodes.png" width="902"/>
+<div aria-hidden="true" class="splash-loader"><span></span></div>
+</div>
+</div>
+<div aria-hidden="true" class="giant-clown-overlay" id="giantClown">
+<img alt="" height="112" src="icon-4.png" width="112"/>
+</div>
+<div class="site-shell">
+<header class="site-header">
+<a aria-label="CLWNSCAM — главная" class="brand" href="./">
+<img alt="CLWNSCAM" height="157" src="clwnscam.png" width="498"/>
+</a>
+<div class="community-credit">MADE WITH LOVE TO CLWNSQUAD COMMUNITY <span aria-label="любовь" class="footer-heart">♥</span></div><nav aria-label="Наши ссылки" class="external-links">
+<a class="nav-link" href="https://www.twitch.tv/clwnsquad" rel="noopener noreferrer" target="_blank">
+<span class="link-indicator twitch-indicator"></span> TWITCH <span aria-hidden="true">↗</span>
+</a>
+<a class="nav-link donate-link" href="https://dalink.to/quarkeelite" rel="noopener noreferrer" target="_blank">
+<span class="donate-word">ПОДДЕРЖАТЬ ПРОЕКТ</span><span class="donate-short">ДОНАТ</span><span aria-hidden="true">↗</span>
+</a>
+</nav>
+
+</header>
+<main class="main-content" id="mainApp">
+<section aria-labelledby="pageTitle" class="intro">
+<div class="eyebrow"><span class="eyebrow-line"></span> АХАХА НУ УДАЧИ <img alt="7TV эмоут" class="seven-tv-emote" height="30" loading="eager" referrerpolicy="no-referrer" src="https://cdn.7tv.app/emote/01K1VWENVNQPMVD9VNX46DERK9/2x.webp" width="30"/> <span class="eyebrow-line"></span></div>
+<h1 id="pageTitle"><em>Зря ты сюда полез</em></h1>
+<p>КРУТИ ПЕДАЛИ, ДРУГ</p>
+</section>
+<div class="game-layout">
+<aside aria-label="Информация об игре" class="info-panel">
+<div class="target-block">
+<span class="mini-label">ЗАСКАМИВШИЙСЯ</span>
+<div class="target-icon"><img alt="" height="112" src="icon-4.png" width="112"/></div>
+<div aria-live="polite" class="target-name" id="currentNick">—</div>
+<span class="target-description">СКАМИРУЕТСЯ СЕГОДНЯ</span>
+</div>
+<button class="change-target" id="changeNickBtn" type="button"><span aria-hidden="true">↗</span> Сменить ник</button>
+<div class="session-heading"><span class="mini-label">ИСТОРИЯ РУЛЕТКИ</span><span class="session-hint">ВСЕ ПРОКРУТЫ</span></div>
+<div class="stat-grid">
+<div class="stat-card"><span class="stat-number" id="totalSpins">0</span><span class="stat-name">ВСЕГО</span></div>
+<div class="stat-card scam"><span class="stat-number" id="scamSpins">0</span><span class="stat-name">СКАМ</span></div>
+<div class="stat-card clean"><span class="stat-number" id="cleanSpins">0</span><span class="stat-name">НЕ СКАМ</span></div>
+</div>
+<button class="history-link" id="openStatsBtn" type="button">Открыть историю <span aria-hidden="true">↗</span></button>
+</aside>
+<section aria-label="Рулетка" class="roulette-panel">
+<div class="roulette-heading">
+<span aria-hidden="true" class="roulette-ornament">✦   ✳   ✦</span>
+</div>
+<div class="reel-stage">
+<div aria-hidden="true" class="stage-halo"></div>
+<div class="roulette-container">
+<div aria-hidden="true" class="side-indicator left"></div>
+<div aria-label="Поле рулетки" class="roulette-wrapper" id="rouletteWrapper">
+<div aria-hidden="true" class="roulette-items" id="rouletteItems"></div>
+<div aria-hidden="true" class="selection-window"></div>
+</div>
+<div aria-hidden="true" class="side-indicator right"></div>
+</div>
+</div>
+<div aria-atomic="true" aria-live="polite" class="outcome-area">
+<div class="outcome-kicker" hidden="" id="reelState"></div>
+<div class="outcome-title" id="spinResult">ГРИГОРИЙ, ЗАВОДИ</div>
+<div class="outcome-caption" hidden="" id="resultDescription"></div>
+</div>
+<div class="game-actions">
+<button class="btn btn-primary" id="spinBtn" type="button"><span aria-hidden="true" class="spin-symbol">✳</span> КРУТИТЬ <span aria-hidden="true" class="arrow">↗</span></button>
+<button class="btn btn-secondary" id="warmupSpinBtn" type="button"><span aria-hidden="true">🔥</span> Прогревочная</button>
+</div>
+<div class="game-meta" aria-label="Информация об игре"><span class="game-meta-note"><span class="tiny-spark">✦</span> Ради чего все это?</span><span class="game-meta-chance">ШАНС СКАМА: <strong id="chanceMetric">67%</strong></span></div>
+</section>
+<nav aria-label="Инструменты игры" class="tools-bar">
+<button aria-label="Клоун" class="tool-btn" id="questionBtn" title="Клоун" type="button"><span aria-hidden="true">🤡</span><span class="tool-label">Клоун</span></button>
+<button aria-label="Тест вероятности" class="tool-btn" id="testMenuBtn" title="Тест вероятности" type="button"><span aria-hidden="true">▥</span><span class="tool-label">Тест вероятности</span></button>
+<button aria-label="Настроить шансы" class="tool-btn" id="probBtn" title="Настроить шансы" type="button"><span aria-hidden="true">⚙</span><span class="tool-label">Шансы</span></button>
+</nav></div>
+</main>
+<footer class="footer">© 2026 ACCE VIBECODES INC.</footer>
+</div>
+<div aria-labelledby="nickTitle" aria-modal="true" class="modal-overlay hidden" id="modalNick" role="dialog">
+<div class="modal modal-nick">
+<div class="modal-icon"><img alt="" height="112" src="icon-4.png" width="112"/></div>
+<h2 id="nickTitle">НИК СКАМИРУЕМОГО</h2>
+<p class="modal-description">И пусть он позавидует мертвым</p>
+<form class="form-stack" id="nickForm">
+<label class="field-label" for="nicknameInput">НИКНЕЙМ</label>
+<input autocomplete="off" class="text-field" id="nicknameInput" maxlength="30" placeholder="Например, xddReTro" required="" type="text"/>
+<p class="input-hint">до 30 символов</p>
+<button class="btn btn-primary modal-action" id="submitNickBtn" type="submit">ПРОДОЛЖИТЬ <span aria-hidden="true">↗</span></button>
+</form>
+</div>
+</div>
+<div aria-labelledby="warmupTitle" aria-modal="true" class="modal-overlay hidden" id="modalWarmup" role="dialog">
+<div class="modal">
+<div class="modal-icon">🔥</div>
+<p class="modal-kicker">ПЕРЕД СТАРТОМ</p>
+<h2 id="warmupTitle">Нужен прогрев?</h2>
+<p class="modal-description">Первый прокрут будет тренировочным и не попадёт в статистику.</p>
+<div class="modal-inline-actions">
+<button class="btn btn-primary" id="warmupYesBtn" type="button">ДА</button>
+<button class="btn btn-secondary" id="warmupNoBtn" type="button">НЕТ</button>
+</div>
+</div>
+</div>
+<div aria-labelledby="statsTitle" aria-modal="true" class="modal-overlay hidden" id="statsModal" role="dialog">
+<div class="modal modal-wide">
+<button aria-label="Закрыть статистику" class="modal-x" data-close="statsModal" type="button">✕</button>
+<p class="modal-kicker">АРХИВ РЕШЕНИЙ</p>
+<h2 id="statsTitle">История прокрутов</h2>
+<p class="modal-description">Все результаты хранятся только в этом браузере.</p>
+<ul class="stats-list" id="statsListModal"></ul>
+<div class="modal-bottom-actions">
+<button class="btn btn-secondary" id="closeStatsBtn" type="button">ЗАКРЫТЬ</button>
+<button class="btn btn-danger" id="resetStatsBtn" type="button">СБРОСИТЬ ИСТОРИЮ</button>
+</div>
+</div>
+</div>
+<div aria-labelledby="testTitle" aria-modal="true" class="modal-overlay hidden" id="testModal" role="dialog">
+<div class="modal">
+<button aria-label="Закрыть тест" class="modal-x" data-close="testModal" type="button">✕</button>
+<p class="modal-kicker">ЛАБОРАТОРИЯ РАНДОМА</p>
+<h2 id="testTitle">Проверить шансы</h2>
+<p class="modal-description">Запусти симуляцию и посмотри реальные результаты без влияния на историю.</p>
+<label class="field-label" for="testSpinsInput">КОЛИЧЕСТВО ПРОКРУТОВ</label>
+<input class="text-field" id="testSpinsInput" max="1000000" min="1" step="1" type="number" value="100000"/>
+<button class="btn btn-primary modal-action" id="runTestBtn" type="button">ЗАПУСТИТЬ ТЕСТ <span aria-hidden="true">↗</span></button>
+<div aria-live="polite" class="test-results" id="testResults" role="status">Результаты появятся здесь. Подробности также доступны в консоли браузера.</div>
+<button class="btn btn-secondary modal-footer-button" id="closeTestBtn" type="button">ЗАКРЫТЬ</button>
+</div>
+</div>
+<div aria-labelledby="probTitle" aria-modal="true" class="modal-overlay hidden" id="probModal" role="dialog">
+<div class="modal">
+<button aria-label="Закрыть настройки" class="modal-x" data-close="probModal" type="button">✕</button>
+<p class="modal-kicker">НАСТРОЙКИ РУЛЕТКИ</p>
+<h2 id="probTitle">Поменяем шансы?</h2>
+<p class="modal-description">Вероятность выпадения СКАМа. 0 — никогда, 1 — всегда.</p>
+<label class="field-label" for="probInput">ВЕРОЯТНОСТЬ СКАМА <span id="currentProbDisplay">0.67</span></label>
+<input class="text-field" id="probInput" inputmode="decimal" max="1" min="0" step="0.01" type="number" value="0.67"/>
+<div class="prob-scale"><span>0 · НЕ СКАМ</span><span>0.5</span><span>1 · СКАМ</span></div>
+<button class="btn btn-primary modal-action" id="saveProbBtn" type="button">СОХРАНИТЬ <span aria-hidden="true">↗</span></button>
+<p aria-live="polite" class="form-feedback" id="probFeedback"></p>
+<button class="btn btn-secondary modal-footer-button" id="closeProbBtn" type="button">ЗАКРЫТЬ</button>
+</div>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+</body>
+</html>
